@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "main\Domain\Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "main\Application\Application.csproj", "{43AFB33A-EFBB-493F-B1C8-7B4539603E1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iinfrastructure", "main\infrastructure\Iinfrastructure.csproj", "{704DD629-B97C-442F-9D83-AEF418991AF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "main\Infrastructure\Infrastructure.csproj", "{704DD629-B97C-442F-9D83-AEF418991AF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDomain", "test\TestDomain\TestDomain.csproj", "{57329AF1-8B5F-4BCB-9B8B-5BE86DAEE75E}"
 EndProject
