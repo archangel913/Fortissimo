@@ -1,4 +1,4 @@
-﻿namespace Ui
+﻿namespace UI
 {
     public class Class1
     {

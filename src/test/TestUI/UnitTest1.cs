@@ -1,4 +1,4 @@
-namespace TestUi
+namespace TestUI
 {
     [TestClass]
     public class UnitTest1
