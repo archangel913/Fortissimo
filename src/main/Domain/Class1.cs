@@ -1,7 +1,8 @@
-﻿namespace Application
-{
-    public class Class1
-    {
+﻿namespace Application;
 
-    }
+/// <summary>
+/// Class1
+/// </summary>
+public class Class1
+{
 }

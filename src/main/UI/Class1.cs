@@ -1,7 +1,8 @@
-﻿namespace UI
-{
-    public class Class1
-    {
+﻿namespace UI;
 
-    }
+/// <summary>
+/// Class1
+/// </summary>
+public class Class1
+{
 }
