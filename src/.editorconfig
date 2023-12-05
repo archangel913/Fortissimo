@@ -13,7 +13,7 @@ dotnet_style_parentheses_in_other_operators = never_if_unnecessary:silent
 tab_width = 4
 indent_size = 4
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
-end_of_line = crlf
+end_of_line = lf
 dotnet_code_quality_unused_parameters = all:suggestion
 dotnet_style_readonly_field = true:suggestion
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
@@ -37,6 +37,7 @@ dotnet_style_allow_multiple_blank_lines_experimental = true:silent
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
 dotnet_style_predefined_type_for_locals_parameters_members = true:warning
 dotnet_style_predefined_type_for_member_access = true:warning
+charset=utf-8-bom
 
 # Xml files
 [*.xml]
@@ -131,6 +132,18 @@ dotnet_diagnostic.SA1309.severity = none
 dotnet_diagnostic.SA1623.severity = none
 dotnet_diagnostic.SA1633.severity = none
 dotnet_diagnostic.SA1629.severity = none
+dotnet_diagnostic.SA1314.severity = none
+csharp_prefer_simple_default_expression = true:suggestion
+csharp_style_prefer_local_over_anonymous_function = true:suggestion
+csharp_style_prefer_index_operator = true:suggestion
+csharp_style_prefer_range_operator = true:suggestion
+csharp_style_implicit_object_creation_when_type_is_apparent = false:warning
+csharp_style_prefer_tuple_swap = true:suggestion
+csharp_style_prefer_utf8_string_literals = true:suggestion
+csharp_style_inlined_variable_declaration = true:suggestion
+csharp_style_deconstructed_variable_declaration = true:suggestion
+csharp_style_unused_value_assignment_preference = discard_variable:suggestion
+csharp_style_unused_value_expression_statement_preference = discard_variable:silent
 
 [*.vb]
 #### ñΩñºÉXÉ^ÉCÉã ####
