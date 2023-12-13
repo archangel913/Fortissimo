@@ -1,11 +1,16 @@
-namespace TestApplication
+namespace TestApplication;
+
+/// <summary>
+/// UnitTest1
+/// </summary>
+[TestClass]
+public class UnitTest1
 {
-    [TestClass]
-    public class UnitTest1
+    /// <summary>
+    /// TestMethod1
+    /// </summary>
+    [TestMethod]
+    public void TestMethod1()
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-        }
     }
 }
