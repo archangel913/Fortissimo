@@ -1,24 +1,24 @@
----
-name: ƒoƒOC³ƒvƒ‹ƒŠƒNƒeƒ“ƒvƒŒ[ƒg
-about: ƒoƒOC³—p‚Ìƒeƒ“ƒvƒŒ‚Å‚·BƒfƒtƒHƒ‹ƒg‚Ìƒo[ƒWƒ‡ƒ“‚Í 0.1.0 ‚Å‚·B
+ï»¿---
+name: ãƒã‚°ä¿®æ­£ãƒ—ãƒ«ãƒªã‚¯ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
+about: ãƒã‚°ä¿®æ­£ç”¨ã®ãƒ†ãƒ³ãƒ—ãƒ¬ã§ã™ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã¯ 0.1.0 ã§ã™ã€‚
 title: "#<number> TITLE"
 labels: ver-0.1.x
 assignees: ''
 
 ---
-### ƒ}[ƒWæ‚ð ` develop ` ‚É•ÏX‚µ‚Ä‚­‚¾‚³‚¢B
+### ãƒžãƒ¼ã‚¸å…ˆã‚’ ` develop ` ã«å¤‰æ›´ã—ã¦ãã ã•ã„ã€‚
 
-# ‘Î‰žƒ`ƒPƒbƒg
+# å¯¾å¿œãƒã‚±ãƒƒãƒˆ
 ex: #12
-> ƒ`ƒPƒbƒg‚ÖƒŠƒ“ƒN‚³‚¹‚éB
-> ƒ^ƒCƒgƒ‹Aƒuƒ‰ƒ“ƒ`‚©‚ç’¼ÚƒWƒƒƒ“ƒv‚Å‚«‚È‚¢‚½‚ßB
+> ãƒã‚±ãƒƒãƒˆã¸ãƒªãƒ³ã‚¯ã•ã›ã‚‹ã€‚
+> ã‚¿ã‚¤ãƒˆãƒ«ã€ãƒ–ãƒ©ãƒ³ãƒã‹ã‚‰ç›´æŽ¥ã‚¸ãƒ£ãƒ³ãƒ—ã§ããªã„ãŸã‚ã€‚
 
-# Œ´ˆö
-> Œ´ˆö‚Æ‚È‚Á‚½ƒNƒ‰ƒXAƒƒ\ƒbƒhAˆ—“™‚ð‘‚¢‚Ä‚­‚¾‚³‚¢B
+# åŽŸå› 
+> åŽŸå› ã¨ãªã£ãŸã‚¯ãƒ©ã‚¹ã€ãƒ¡ã‚½ãƒƒãƒ‰ã€å‡¦ç†ç­‰ã‚’æ›¸ã„ã¦ãã ã•ã„ã€‚
 
-# C³•ûj
-> ‚Ç‚Ì‚æ‚¤‚ÉC³‚µ‚½‚©‘‚¢‚Ä‚­‚¾‚³‚¢B
+# ä¿®æ­£æ–¹é‡
+> ã©ã®ã‚ˆã†ã«ä¿®æ­£ã—ãŸã‹æ›¸ã„ã¦ãã ã•ã„ã€‚
 
-# ‰e‹¿”ÍˆÍ
-> ‚±‚ÌC³‚Å‚Ç‚±‚É‰e‹¿‚ª‚ ‚é‚©iŠî–{“I‚ÉAC³‘ÎÛƒNƒ‰ƒX‚ÉˆË‘¶‚µ‚Ä‚¢‚éƒNƒ‰ƒXAˆ—‘S”Êj‚ð‘‚¢‚Ä‚­‚¾‚³‚¢B
-> ‘åŽG”c‚ÅOKiex: Domain.Entities.YoutubeVideoƒNƒ‰ƒX‚É‰e‹¿j
+# å½±éŸ¿ç¯„å›²
+> ã“ã®ä¿®æ­£ã§ã©ã“ã«å½±éŸ¿ãŒã‚ã‚‹ã‹ï¼ˆåŸºæœ¬çš„ã«ã€ä¿®æ­£å¯¾è±¡ã‚¯ãƒ©ã‚¹ã«ä¾å­˜ã—ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã€å‡¦ç†å…¨èˆ¬ï¼‰ã‚’æ›¸ã„ã¦ãã ã•ã„ã€‚
+> å¤§é›‘æŠŠã§OKï¼ˆex: Domain.Entities.YoutubeVideoã‚¯ãƒ©ã‚¹ã«å½±éŸ¿ï¼‰

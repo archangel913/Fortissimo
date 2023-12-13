@@ -1,14 +1,14 @@
----
-name: V‹KŽÀ‘•ƒvƒ‹ƒŠƒNƒeƒ“ƒvƒŒ[ƒg
-about: V‹KŽÀ‘•—p‚Ìƒeƒ“ƒvƒŒ‚Å‚·BƒfƒtƒHƒ‹ƒg‚Ìƒo[ƒWƒ‡ƒ“‚Í 0.1.0 ‚Å‚·B
+ï»¿---
+name: æ–°è¦å®Ÿè£…ãƒ—ãƒ«ãƒªã‚¯ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
+about: æ–°è¦å®Ÿè£…ç”¨ã®ãƒ†ãƒ³ãƒ—ãƒ¬ã§ã™ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã¯ 0.1.0 ã§ã™ã€‚
 title: "#<number> TITLE"
 labels: ver-0.1.x
 assignees: ''
 
 ---
-### ƒ}[ƒWæ‚ð ` develop ` ‚É•ÏX‚µ‚Ä‚­‚¾‚³‚¢B
+### ãƒžãƒ¼ã‚¸å…ˆã‚’ ` develop ` ã«å¤‰æ›´ã—ã¦ãã ã•ã„ã€‚
 
-# ‘Î‰žƒ`ƒPƒbƒg
+# å¯¾å¿œãƒã‚±ãƒƒãƒˆ
 ex: #12
-> ƒ`ƒPƒbƒg‚ÖƒŠƒ“ƒN‚³‚¹‚éB
-> ƒ^ƒCƒgƒ‹Aƒuƒ‰ƒ“ƒ`‚©‚ç’¼ÚƒWƒƒƒ“ƒv‚Å‚«‚È‚¢‚½‚ßB
+> ãƒã‚±ãƒƒãƒˆã¸ãƒªãƒ³ã‚¯ã•ã›ã‚‹ã€‚
+> ã‚¿ã‚¤ãƒˆãƒ«ã€ãƒ–ãƒ©ãƒ³ãƒã‹ã‚‰ç›´æŽ¥ã‚¸ãƒ£ãƒ³ãƒ—ã§ããªã„ãŸã‚ã€‚
