@@ -35,25 +35,31 @@ public class MusicDownloader {
 		// TODO とりあえずyoutubeから
 		List<MusicMetaData> result = new ArrayList<MusicMetaData>();
 		try {
-			ProcessBuilder builder = new ProcessBuilder("yt-dlp", "--skip-download", "--flat-playlist", "--print",
-					"{\"\\\"url\\\"\": %(webpage_url|\\\"\\\")j, \"\\\"title\\\"\": %(title|\\\"\\\")j, \"\\\"thumbnail\\\"\": %(thumbnail|\\\"\\\")j}",
-					url);
+			ProcessBuilder builder = new ProcessBuilder("yt-dlp", "--skip-download", "--flat-playlist", "-j", url);
 			Process process = builder.start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String line;
 			while ((line = reader.readLine()) != null) {
 				log.trace(line);
 				JsonNode jn = objectMapper.readTree(line);
+
 				byte[] thumbnail = new byte[0];
-				if (!jn.get("thumbnail").asString().isEmpty()) {
+				String thumbnailUrl = getString(jn, "thumbnail");
+				if (thumbnailUrl != null) {
 					thumbnail = restTemplate.getForObject(jn.get("thumbnail").asString(), byte[].class);
+				}
+
+				String title = getString(jn, "title");
+				String webpageUrl = getString(jn, "webpage_url");
+				if (title == null || webpageUrl == null) {
+					throw new IllegalStateException("楽曲情報の取得に失敗しました。");
 				}
 				long id = id_seq++;
 
 				MusicMetaData data = new MusicMetaData(
 						id,
-						jn.get("title").asString(),
-						jn.get("url").asString(),
+						title,
+						webpageUrl,
 						thumbnail);
 				result.add(data);
 			}
@@ -70,5 +76,13 @@ public class MusicDownloader {
 	 */
 	public ProcessBuilder getBinaryDownloadProcess(String url) {
 		return new ProcessBuilder("yt-dlp", "-x", "-o", "-", url);
+	}
+
+	private String getString(JsonNode jn, String fieldName) {
+		JsonNode field = jn.get(fieldName);
+		if (field == null || field.asString() == null) {
+			return null;
+		}
+		return field.asString();
 	}
 }
