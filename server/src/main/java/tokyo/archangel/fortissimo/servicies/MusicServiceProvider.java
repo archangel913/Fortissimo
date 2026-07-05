@@ -35,6 +35,7 @@ public class MusicServiceProvider {
 
 		// インスタンス生成と初期化処理
 		MusicService newService = serviceProvider.getObject();
+		newService.init();
 
 		// 新規登録
 		MusicService existingService = musicServices.computeIfAbsent(channelId, k -> newService);

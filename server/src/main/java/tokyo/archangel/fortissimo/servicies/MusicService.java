@@ -54,6 +54,12 @@ public class MusicService {
 		this.messagingTemplate = messagingTemplate;
 	}
 
+	public void init() {
+		sender.addDisconnectEvent(() -> {
+			stop();
+		});
+	}
+
 	public MusicInformation getAllMusic() {
 		PlayingStatus playingStatus = new PlayingStatus(pausingFurture.isDone(), isLooping);
 		List<QueueItem> queueItem = new ArrayList<>();
@@ -82,7 +88,7 @@ public class MusicService {
 
 		// 再生中でなければ再生開始
 		if (playingFurture.isDone()) {
-			sender.connect(guildId, channelId, false, false);
+			sender.connect(guildId, channelId);
 			Thread thread = new Thread(() -> {
 				play(channelId);
 			});
