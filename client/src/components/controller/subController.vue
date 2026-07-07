@@ -1,19 +1,8 @@
 <template>
   <div class="buttons">
-    <MusicButton
-      :button-type="'normal'"
-      :icon-type="'shuffle'"
-      :height="'50px'"
-      :width="'50px'"
-      @click="onShuffle"
-    />
-    <MusicButton
-      :button-type="store.playingState.looping ? 'success' : 'failed'"
-      :icon-type="'repeat'"
-      :height="'50px'"
-      :width="'50px'"
-      @click="onLoop"
-    />
+    <MusicButton :button-type="'normal'" :icon-type="'shuffle'" :height="'50px'" :width="'50px'" @click="onShuffle" />
+    <MusicButton :button-type="store.playingState.looping ? 'success' : 'failed'" :icon-type="'repeat'" :height="'50px'"
+      :width="'50px'" @click="onLoop" />
   </div>
 </template>
 
@@ -27,15 +16,17 @@ import { channelId } from "@/main";
 const store = musicInformation();
 const websocket = useWebsocket();
 
-const onShuffle = () =>{
-  websocket.sendMessage('/app/player/'+channelId.value+'/shuffle', '');
+const onShuffle = () => {
+  store.isLoading = true;
+  websocket.sendMessage('/app/player/' + channelId.value + '/shuffle', '');
 }
 
-const onLoop = () =>{
-  if(store.playingState.looping){
-    websocket.sendMessage('/app/player/'+channelId.value+'/loopOff', '');
+const onLoop = () => {
+  store.isLoading = true;
+  if (store.playingState.looping) {
+    websocket.sendMessage('/app/player/' + channelId.value + '/loopOff', '');
   } else {
-    websocket.sendMessage('/app/player/'+channelId.value+'/loopOn', '');
+    websocket.sendMessage('/app/player/' + channelId.value + '/loopOn', '');
   }
 }
 

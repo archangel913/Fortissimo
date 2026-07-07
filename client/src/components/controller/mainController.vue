@@ -2,36 +2,12 @@
   <div>
     <div class="seek-bar"></div>
     <div class="buttons">
-      <MusicButton
-        :button-type="'normal'"
-        :icon-type="'stop'"
-        :height="'50px'"
-        :width="'50px'"
-        @click="onStop"
-      />
-      <MusicButton
-        v-if="store.playingState.playing"
-        :button-type="'normal'"
-        :icon-type="'pause'"
-        :height="'50px'"
-        :width="'50px'"
-        @click="onPause"
-      />
-      <MusicButton
-        v-else
-        :button-type="'normal'"
-        :icon-type="'play'"
-        :height="'50px'"
-        :width="'50px'"
-        @click="onResume"
-      />
-      <MusicButton
-        :button-type="'normal'"
-        :icon-type="'skip'"
-        :height="'50px'"
-        :width="'50px'"
-        @click="onSkip"
-      />
+      <MusicButton :button-type="'normal'" :icon-type="'stop'" :height="'50px'" :width="'50px'" @click="onStop" />
+      <MusicButton v-if="store.playingState.playing" :button-type="'normal'" :icon-type="'pause'" :height="'50px'"
+        :width="'50px'" @click="onPause" />
+      <MusicButton v-else :button-type="'normal'" :icon-type="'play'" :height="'50px'" :width="'50px'"
+        @click="onResume" />
+      <MusicButton :button-type="'normal'" :icon-type="'skip'" :height="'50px'" :width="'50px'" @click="onSkip" />
     </div>
   </div>
 </template>
@@ -45,25 +21,26 @@ import { useWebsocket } from '@/websocket/connection'
 const store = musicInformation();
 const websocket = useWebsocket();
 import { channelId } from "@/main";
-import { nextTick } from "vue";
 
-const onPause = () =>{
-  websocket.sendMessage('/app/player/'+channelId.value+'/pause', '');
+const onPause = () => {
+  store.isLoading = true;
+  websocket.sendMessage('/app/player/' + channelId.value + '/pause', '');
 }
 
-const onResume = () =>{
-  websocket.sendMessage('/app/player/'+channelId.value+'/resume', '');
+const onResume = () => {
+  store.isLoading = true;
+  websocket.sendMessage('/app/player/' + channelId.value + '/resume', '');
 }
 
-const onStop = async () => {
+const onStop = () => {
   store.isStop = true;
-  await nextTick();
-  websocket.sendMessage('/app/player/'+channelId.value+'/stop', '');
+  store.isLoading = true;
+  websocket.sendMessage('/app/player/' + channelId.value + '/stop', '');
 }
 
 const onSkip = () => {
   store.isLoading = true;
-  websocket.sendMessage('/app/player/'+channelId.value+'/skip', '');
+  websocket.sendMessage('/app/player/' + channelId.value + '/skip', '');
 }
 
 </script>
