@@ -8,10 +8,12 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
 import tokyo.archangel.fortissimo.dto.Session;
 import tokyo.archangel.fortissimo.servicies.SessionService;
 
 @Component
+@Slf4j
 public class FortiwssimoAuthInterceptor implements ChannelInterceptor {
 	private SessionService sessionService;
 
@@ -27,6 +29,9 @@ public class FortiwssimoAuthInterceptor implements ChannelInterceptor {
 		if (accessor == null) {
 			return message;
 		}
+
+		// 実行時間計測用
+		accessor.setHeader("startTime", System.currentTimeMillis());
 
 		if (StompCommand.CONNECT.equals(accessor.getCommand())) {
 			String authToken = accessor.getFirstNativeHeader("Authorization");
@@ -58,5 +63,22 @@ public class FortiwssimoAuthInterceptor implements ChannelInterceptor {
 		}
 
 		return message;
+	}
+
+	@Override
+	public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
+		// メッセージヘッダーから開始時間を取得
+		Long startTime = (Long) message.getHeaders().get("startTime");
+		if (startTime != null) {
+			long endTime = System.currentTimeMillis();
+			long executeTime = endTime - startTime;
+
+			// STOMPのコマンド種別（SEND, SUBSCRIBE, CONNECTなど）や宛先（Destination）を取得
+			Object stompCommand = message.getHeaders().get("simpCommand");
+			Object destination = message.getHeaders().get("simpDestination");
+
+			log.info("STOMP Command: {} | Destination: {} | 処理時間: {} ms",
+					stompCommand, destination, executeTime);
+		}
 	}
 }
