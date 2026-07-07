@@ -60,7 +60,7 @@ public class MusicService {
 		});
 	}
 
-	public MusicInformation getAllMusic() {
+	public synchronized MusicInformation getAllMusic() {
 		PlayingStatus playingStatus = new PlayingStatus(pausingFurture.isDone(), isLooping);
 		List<QueueItem> queueItem = new ArrayList<>();
 
@@ -81,7 +81,7 @@ public class MusicService {
 		return new MusicInformation(nowPlayingItem, queueItem.toArray(new QueueItem[queueItem.size()]), playingStatus);
 	}
 
-	public void addMusic(String url, String guildId, String channelId) {
+	public synchronized void addMusic(String url, String guildId, String channelId) {
 		// urlから曲を取得。
 		List<MusicMetaData> metadataList = downloader.getMetaData(url);
 		queue.pushAll(metadataList);
@@ -100,11 +100,11 @@ public class MusicService {
 	 * 
 	 * @param isLooping
 	 */
-	public void setLooping(boolean isLooping) {
+	public synchronized void setLooping(boolean isLooping) {
 		this.isLooping = isLooping;
 	}
 
-	public void doPause() {
+	public synchronized void doPause() {
 		if (playingFurture.isDone()) {
 			log.warn("再生中でないため、操作を実行しません");
 			return;
@@ -112,7 +112,7 @@ public class MusicService {
 		pausingFurture = new CompletableFuture<Void>();
 	}
 
-	public void doResume() {
+	public synchronized void doResume() {
 		if (playingFurture.isDone()) {
 			log.warn("再生中でないため、操作を実行しません");
 			return;
@@ -124,7 +124,7 @@ public class MusicService {
 		}
 	}
 
-	public void doSkip() {
+	public synchronized void doSkip() {
 		if (playingFurture.isDone()) {
 			log.warn("再生中でないため、操作を実行しません");
 			return;
@@ -136,14 +136,14 @@ public class MusicService {
 	/**
 	 * シャッフルを行う
 	 */
-	public void doShuffle() {
+	public synchronized void doShuffle() {
 		queue.shuffle();
 	}
 
 	/**
 	 * 再生停止する
 	 */
-	public void stop() {
+	public synchronized void stop() {
 		if (playingFurture.isDone()) {
 			log.warn("再生中でないため、操作を実行しません");
 			return;
@@ -155,7 +155,7 @@ public class MusicService {
 	}
 
 	public void close() {
-
+		stop();
 	}
 
 	/**
