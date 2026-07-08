@@ -38,6 +38,8 @@ public class MusicService {
 
 	private volatile boolean isSkip = false;
 
+	private String channelId = "";
+
 	private MusicBuffer musicBuffer = new MusicBuffer();
 
 	private CompletableFuture<Void> playingFurture = CompletableFuture.completedFuture(null);
@@ -82,6 +84,7 @@ public class MusicService {
 	}
 
 	public synchronized void addMusic(String url, String guildId, String channelId) {
+		this.channelId = channelId;
 		// urlから曲を取得。
 		List<MusicMetaData> metadataList = downloader.getMetaData(url);
 		queue.pushAll(metadataList);
@@ -90,7 +93,7 @@ public class MusicService {
 		if (playingFurture.isDone()) {
 			sender.connect(guildId, channelId);
 			Thread thread = new Thread(() -> {
-				play(channelId);
+				play();
 			});
 			thread.start();
 		}
@@ -152,6 +155,7 @@ public class MusicService {
 		doResume();
 		queue.clear();
 		playingFurture.complete(null);
+		clientDataUpdate();
 	}
 
 	public void close() {
@@ -161,13 +165,13 @@ public class MusicService {
 	/**
 	 * 音声再生ロジック本体
 	 */
-	private CompletableFuture<Void> play(String channelId) {
+	private CompletableFuture<Void> play() {
 		playingFurture = new CompletableFuture<Void>();
 
 		while ((nowPlaying = queue.pull()) != null && !playingFurture.isDone()) {
 			try {
 				nowPlaying = downloader.getMetaData(nowPlaying.getUrl()).get(0);
-				clientDataUpdate(channelId);
+				clientDataUpdate();
 
 				List<ProcessBuilder> processes = new ArrayList<>();
 				// 曲をダウンロード
@@ -209,11 +213,11 @@ public class MusicService {
 
 		sender.disconnect();
 		playingFurture.complete(null);
-		clientDataUpdate(channelId);
+		clientDataUpdate();
 		return CompletableFuture.completedFuture(null);
 	}
 
-	private void clientDataUpdate(String channelId) {
+	private void clientDataUpdate() {
 		MusicInformation info = getAllMusic();
 		String destination = "/topic/" + channelId + "/allInformation";
 		messagingTemplate.convertAndSend(destination, info);
