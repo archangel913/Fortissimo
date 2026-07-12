@@ -25,6 +25,10 @@ public class ProcessExecuter {
 
 	private int bufferSize;
 
+	private int failedCount = 0;
+
+	private volatile boolean isNormalExit = true;
+
 	public void setBuilders(List<ProcessBuilder> builders) {
 		this.builders = builders;
 	}
@@ -32,6 +36,15 @@ public class ProcessExecuter {
 	public void setBuffer(MusicBuffer buffer, int size) {
 		this.buffer = buffer;
 		this.bufferSize = size;
+	}
+
+	public boolean isNormalExit() {
+		if (failedCount > 5) {
+			// もし5回以上失敗している場合は正常終了とする。
+			failedCount = 0;
+			return true;
+		}
+		return this.isNormalExit;
 	}
 
 	public void run() {
@@ -62,7 +75,10 @@ public class ProcessExecuter {
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
+					} finally {
+						isNormalExit = isNormalExit && process.exitValue() == 0;
 					}
+					log.trace("PID:" + process.pid() + "  exitコード:" + process.exitValue());
 				});
 				stderrThread.start();
 			}
@@ -73,12 +89,21 @@ public class ProcessExecuter {
 	}
 
 	public void kill() {
-		for (Process process : processes) {
-			process.destroy();
+		if (processes != null) {
+			for (Process process : processes) {
+				process.destroy();
+			}
 		}
 
 		builders = new ArrayList<ProcessBuilder>();
 		processes = null;
 		buffer = null;
+		if (!isNormalExit) {
+			failedCount++;
+		} else {
+			failedCount = 0;
+		}
+		log.debug("" + failedCount);
+		isNormalExit = true;
 	}
 }

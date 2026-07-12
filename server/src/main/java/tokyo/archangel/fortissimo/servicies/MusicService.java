@@ -40,6 +40,8 @@ public class MusicService {
 
 	private String channelId = "";
 
+	private byte[] emptyByte = new byte[3840];
+
 	private MusicBuffer musicBuffer = new MusicBuffer();
 
 	private CompletableFuture<Void> playingFurture = CompletableFuture.completedFuture(null);
@@ -60,6 +62,10 @@ public class MusicService {
 		sender.addDisconnectEvent(() -> {
 			stop();
 		});
+
+		for (int i = 0; i < emptyByte.length; ++i) {
+			emptyByte[i] = 0;
+		}
 	}
 
 	public synchronized MusicInformation getAllMusic() {
@@ -151,6 +157,7 @@ public class MusicService {
 			log.warn("再生中でないため、操作を実行しません");
 			return;
 		}
+		nowPlaying = null;
 		isLooping = false;
 		doResume();
 		queue.clear();
@@ -168,52 +175,65 @@ public class MusicService {
 	private CompletableFuture<Void> play() {
 		playingFurture = new CompletableFuture<Void>();
 
-		while ((nowPlaying = queue.pull()) != null && !playingFurture.isDone()) {
-			try {
-				nowPlaying = downloader.getMetaData(nowPlaying.getUrl()).get(0);
-				clientDataUpdate();
+		try {
+			while ((nowPlaying = queue.pull()) != null && !playingFurture.isDone()) {
+				try {
+					nowPlaying = downloader.getMetaData(nowPlaying.getUrl()).get(0);
+					clientDataUpdate();
 
-				List<ProcessBuilder> processes = new ArrayList<>();
-				// 曲をダウンロード
-				processes.add(downloader.getBinaryDownloadProcess(nowPlaying.getUrl()));
+					List<ProcessBuilder> processes = new ArrayList<>();
+					// 曲をダウンロード
+					processes.add(downloader.getBinaryDownloadProcess(nowPlaying.getUrl()));
 
-				// エンコード
-				processes.add(encorder.getEncordProcess());
+					// エンコード
+					processes.add(encorder.getEncordProcess());
 
-				// プロセスの実行
-				processExecuter.setBuilders(processes);
-				processExecuter.setBuffer(musicBuffer, 3840);
-				processExecuter.run();
+					// プロセスの実行
+					processExecuter.setBuilders(processes);
+					processExecuter.setBuffer(musicBuffer, 3840);
+					processExecuter.run();
 
-				// 送信
-				byte[] buffer;
-				while ((buffer = musicBuffer.poll()) != null
-						&& !playingFurture.isDone() && !isSkip) {
-					if (!pausingFurture.isDone()) {
-						// ポーズ中の時は曲を一時停止する
-						sender.pause();
-						pausingFurture.join();
-						sender.resume();
+					// 送信
+					byte[] buffer;
+					while ((buffer = musicBuffer.poll()) != null
+							&& !playingFurture.isDone() && !isSkip) {
+						if (!pausingFurture.isDone()) {
+							// ポーズ中の時は曲を一時停止する
+							sender.pause();
+							pausingFurture.join();
+							sender.resume();
+						}
+						sender.send(buffer);
 					}
-					sender.send(buffer);
+				} catch (Exception e) {
+					log.warn("音声再生中に例外が発生しました。", e);
+					log.warn("曲をスキップします。");
+				} finally {
+					if (!processExecuter.isNormalExit()) {
+						// エンコーダー周りの処理が失敗している場合、再度その曲を再生する
+						queue.addFirst(nowPlaying);
+					} else if (isLooping) {
+						// loop再生中だった場合、曲を再度追加する
+						queue.push(nowPlaying);
+					}
+					musicBuffer.clear();
+					nowPlaying = null;
+					isSkip = false;
+					processExecuter.kill();
+					try {
+						sendEmpty();
+					} catch (InterruptedException e) {
+						log.warn("無音送信中に例外が発生しました。", e);
+					}
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if (isLooping) {
-					// loop再生中だった場合、曲を再度追加する
-					queue.push(nowPlaying);
-				}
-				musicBuffer.clear();
-				nowPlaying = null;
-				isSkip = false;
-				processExecuter.kill();
 			}
+		} catch (Exception e) {
+			log.error("音声再生中に例外が発生しました。", e);
+		} finally {
+			sender.disconnect();
+			playingFurture.complete(null);
+			clientDataUpdate();
 		}
-
-		sender.disconnect();
-		playingFurture.complete(null);
-		clientDataUpdate();
 		return CompletableFuture.completedFuture(null);
 	}
 
@@ -221,5 +241,11 @@ public class MusicService {
 		MusicInformation info = getAllMusic();
 		String destination = "/topic/" + channelId + "/allInformation";
 		messagingTemplate.convertAndSend(destination, info);
+	}
+
+	private void sendEmpty() throws InterruptedException {
+		for (int i = 0; i < 5; ++i) {
+			sender.send(emptyByte);
+		}
 	}
 }
